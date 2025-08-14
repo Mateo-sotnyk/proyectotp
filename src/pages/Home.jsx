@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-import { Layout } from "../components/Layout"
 import { useAuth } from "../context/UserContext"
+import { Layout } from "../components/Layout"
 
 const Home = () => {
   const [products, setProducts] = useState([])
@@ -12,26 +12,24 @@ const Home = () => {
   const [categoryEdit, setCategoryEdit] = useState("")
   const [imageEdit, setImageEdit] = useState("")
 
-  // simulando existencia del usuario, proximamente este estado será global
   const { user } = useAuth()
 
+  // Función para traer productos desde la API
   const fetchingProducts = async () => {
-    const response = await fetch("https://fakestoreapi.com/products", { method: "GET" })
+    const response = await fetch("https://fakestoreapi.com/products")
     const data = await response.json()
     setProducts(data)
   }
 
-  // El array vacío (dependencias) espera a que ejecute el return del jsx. Si tiene algo, useEffect se va a ejecutar cada vez que se modifique lo que este dentro de la dependencia.
+  // Se ejecuta al montar el componente
   useEffect(() => {
     fetchingProducts()
   }, [])
 
   const handleDelete = async (id) => {
     const response = await fetch(`https://fakestoreapi.com/products/${id}`, { method: "DELETE" })
-
     if (response.ok) {
-      setProducts(prevProduct => prevProduct.filter((product) => product.id != id))
-      // fetchingProducts()
+      setProducts(prev => prev.filter(product => product.id !== id))
     }
   }
 
@@ -45,10 +43,8 @@ const Home = () => {
     setImageEdit(product.image)
   }
 
-  // petición al backend mediante fetch para modificar-> método PATCH / PUT https://fakeproductapi.com/products
   const handleUpdate = async (e) => {
     e.preventDefault()
-
     const updatedProduct = {
       id: productToEdit.id,
       title: titleEdit,
@@ -61,21 +57,14 @@ const Home = () => {
     try {
       const response = await fetch(`https://fakestoreapi.com/products/${productToEdit.id}`, {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedProduct)
       })
-
       if (response.ok) {
         const data = await response.json()
-        setProducts(prevProduct =>
-          prevProduct.map((product) =>
-            product.id === productToEdit.id
-              ? data
-              : product
-          ))
-        // fetchingProducts()
+        setProducts(prev =>
+          prev.map(product => product.id === productToEdit.id ? data : product)
+        )
       }
       setShowPopup(false)
     } catch (error) {
@@ -91,85 +80,44 @@ const Home = () => {
       </section>
 
       <section>
-        <h2>¿Por qué elegirnos?</h2>
-        <ul>
-          <li>
-            <h3>Envíos a todo el país</h3>
-            <p>Recibí tu compra en la puerta de tu casa estés donde estés.</p>
-          </li>
-          <li>
-            <h3>Pagos seguros</h3>
-            <p>Trabajamos con plataformas que garantizan tu seguridad.</p>
-          </li>
-          <li>
-            <h3>Atención personalizada</h3>
-            <p>Estamos disponibles para ayudarte en todo momento.</p>
-          </li>
-        </ul>
-      </section>
-
-      <section>
         <h2>Nuestros productos</h2>
-        <p>Elegí entre nuestras categorías más populares.</p>
-
-
-        {
-          showPopup && <section className="popup-edit">
-            <h2>Editando producto.</h2>
-            <button onClick={() => setShowPopup(null)}>Cerrar</button>
-            <form onSubmit={handleUpdate}>
-              <input
-                type="text"
-                placeholder="Ingrese el titulo"
-                value={titleEdit}
-                onChange={(e) => setTitleEdit(e.target.value)}
-              />
-              <input
-                type="number"
-                placeholder="Ingrese el precio"
-                value={priceEdit}
-                onChange={(e) => setPriceEdit(e.target.value)}
-              />
-              <textarea
-                placeholder="Ingrese la descripción"
-                value={descriptionEdit}
-                onChange={(e) => setDescriptionEdit(e.target.value)}
-              ></textarea>
-              <input
-                type="text"
-                placeholder="Ingrese la categoria"
-                value={categoryEdit}
-                onChange={(e) => setCategoryEdit(e.target.value)}
-              />
-              <input
-                type="text"
-                placeholder="Ingrese la URL de la imagen"
-                value={imageEdit}
-                onChange={(e) => setImageEdit(e.target.value)}
-              />
-              <button>Actualizar</button>
-            </form>
-          </section>
-        }
-
-        <div>
-          {
-            products.map((product) => <div key={product.id}>
-              <h2 key={product.id}>{product.title}</h2>
-              <img width="80px" src={product.image} alt={`Imagen de ${product.title}`} />
-              <p>${product.price}</p>
-              <p>{product.description}</p>
-              <p><strong>{product.category}</strong></p>
-              {
-                user && <div>
-                  <button onClick={() => handleOpenEdit(product)}>Actualizar</button>
-                  <button onClick={() => handleDelete(product.id)}>Borrar</button>
+        <div className="row">
+          {products.map(product => (
+            <div key={product.id} className="col-12 col-md-4 col-lg-3 mb-4">
+              <div className="card h-100">
+                <img src={product.image} className="card-img-top" alt={product.title} />
+                <div className="card-body">
+                  <h5 className="card-title">{product.title}</h5>
+                  <p className="card-text">${product.price}</p>
+                  <p className="card-text">{product.description}</p>
+                  <p><strong>{product.category}</strong></p>
+                  {user && (
+                    <div className="d-flex gap-2 mt-2">
+                      <button className="btn btn-warning btn-sm" onClick={() => handleOpenEdit(product)}>Actualizar</button>
+                      <button className="btn btn-danger btn-sm" onClick={() => handleDelete(product.id)}>Borrar</button>
+                    </div>
+                  )}
                 </div>
-              }
-            </div>)
-          }
+              </div>
+            </div>
+          ))}
         </div>
       </section>
+
+      {showPopup && (
+        <section className="popup-edit">
+          <h2>Editando producto</h2>
+          <button className="btn btn-secondary" onClick={() => setShowPopup(null)}>Cerrar</button>
+          <form onSubmit={handleUpdate} className="d-flex flex-column gap-2 mt-2">
+            <input type="text" placeholder="Ingrese el titulo" value={titleEdit} onChange={(e) => setTitleEdit(e.target.value)} />
+            <input type="number" placeholder="Ingrese el precio" value={priceEdit} onChange={(e) => setPriceEdit(e.target.value)} />
+            <textarea placeholder="Ingrese la descripción" value={descriptionEdit} onChange={(e) => setDescriptionEdit(e.target.value)}></textarea>
+            <input type="text" placeholder="Ingrese la categoria" value={categoryEdit} onChange={(e) => setCategoryEdit(e.target.value)} />
+            <input type="text" placeholder="Ingrese la URL de la imagen" value={imageEdit} onChange={(e) => setImageEdit(e.target.value)} />
+            <button className="btn btn-primary">Actualizar</button>
+          </form>
+        </section>
+      )}
     </Layout>
   )
 }

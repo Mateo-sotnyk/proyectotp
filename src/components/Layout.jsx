@@ -1,15 +1,8 @@
-import { Footer } from "./Footer"
-import { Header } from "./Header"
-
-const Layout = (props) => {
+const Layout = ({ children }) => {
   return (
-    <div className={props.background}>
-      <Header />
-      <main>
-        {props.children}
-      </main>
-      <Footer />
-    </div>
+    <main className="container mt-4">
+      {children}
+    </main>
   )
 }
 
