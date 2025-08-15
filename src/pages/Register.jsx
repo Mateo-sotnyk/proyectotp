@@ -1,80 +1,60 @@
-import { useState } from "react"
-import { Layout } from "../components/Layout"
+import React, { useState } from "react";
+import "../styles/pages/Login.css"; // reutilizamos los mismos estilos
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
-const Register = () => {
-  const [username, setUsername] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
-  const [success, setSuccess] = useState("")
+function Register() {
+  const [usuario, setUsuario] = useState("johnd"); // valor por defecto
+  const [password, setPassword] = useState("m38rmF$"); // valor por defecto
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    setError("")
-    setSuccess("")
-
-    if (!username || !email || !password) {
-      setError("Debes completar todos los campos")
-      return
-    }
-
-    const newUser = {
-      username,
-      email,
-      password
-    }
-
-    console.log(newUser)
-    setSuccess("Usuario registrado con éxito")
-
-    setUsername("")
-    setEmail("")
-    setPassword("")
-  }
+  const handleRegister = (e) => {
+    e.preventDefault();
+    console.log("Usuario:", usuario, "Contraseña:", password);
+    // lógica de registro
+  };
 
   return (
-    <Layout>
-      <h1>Registrate</h1>
+    <div className="d-flex justify-content-center align-items-center vh-100 login-bg">
+      <div className="shadow-lg p-4 bg-white rounded-4 login-card" style={{ maxWidth: "400px", width: "100%" }}>
+        <h2 className="text-center mb-4">Registrarse</h2>
 
-      <section>
-        <h2>Hola, bienvenido</h2>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>Username:</label>
+        <p className="text-center text-muted mb-3"> Usuario de admin: <strong>johnd</strong>  </p>
+        <p className="text-center text-muted mb-3">Contraseña de admin: <strong>m38rmF$</strong></p>
+
+        <form onSubmit={handleRegister}>
+          <div className="input-group mb-3">
+            <span className="input-group-text bg-light border-0">
+              <i className="bi bi-person"></i>
+            </span>
             <input
               type="text"
-              onChange={(e) => setUsername(e.target.value)}
-              value={username}
+              className="form-control border-0 bg-light input-rounded-right"
+              placeholder="Usuario"
+              value={usuario}
+              onChange={(e) => setUsuario(e.target.value)}
             />
           </div>
-          <div>
-            <label>Correo electrónico:</label>
-            <input
-              type="email"
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
-            />
-          </div>
-          <div>
-            <label>Contraseña:</label>
+
+          <div className="input-group mb-3">
+            <span className="input-group-text bg-light border-0">
+              <i className="bi bi-lock"></i>
+            </span>
             <input
               type="password"
-              onChange={(e) => setPassword(e.target.value)}
+              className="form-control border-0 bg-light input-rounded-right"
+              placeholder="Contraseña"
               value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <button>Ingresar</button>
-        </form>
 
-        {
-          error && <p style={{ color: "red" }}>{error}</p>
-        }
-        {
-          success && <p style={{ color: "green" }}>{success}</p>
-        }
-      </section>
-    </Layout>
-  )
+          <button className="btn btn-primary btn-lg w-100 shadow-sm login-button" type="submit">
+            Crear cuenta
+          </button>
+        </form>
+      </div>
+    </div>
+  );
 }
 
-export { Register }
+export default Register;

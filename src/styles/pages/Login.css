@@ -1,0 +1,16 @@
+
+.login-bg {
+  background: linear-gradient(135deg, #a411c9, #e551eb);
+}
+
+
+.btn-primary:hover {
+  background-color: #ce43d3;
+  transform: scale(1.05);
+  transition: 0.2s ease-in-out;
+}
+
+
+.form-control:focus {
+  box-shadow: none;
+}
