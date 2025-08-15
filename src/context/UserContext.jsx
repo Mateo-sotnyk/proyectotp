@@ -1,40 +1,26 @@
-import { createContext, useContext, useState } from "react"
+import { createContext, useContext, useState } from "react";
 
-const UserContext = createContext()
+const UserContext = createContext();
 
-const UserProvider = (props) => {
-  const [user, setUser] = useState(null)
+export const UserProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
 
-  const login = async (username, password) => {
-    // realizar una petición al backend 
-    const response = await fetch("https://fakestoreapi.com/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ username, password })
-    })
-
-    if (response.ok) {
-      const token = await response.json()
-      setUser(true)
-      return token
-    } else {
-      return false
+  // Login de prueba
+  const login = (username, password) => {
+    if (username === "johnd" && password === "m38rmF$") {
+      setUser({ username });
+      return true;
     }
-  }
+    return false;
+  };
 
-  const logout = () => {
-    setUser(null)
-  }
+  const logout = () => setUser(null);
 
   return (
-    <UserContext.Provider value={{ login, logout, user }}>
-      {props.children}
+    <UserContext.Provider value={{ user, login, logout }}>
+      {children}
     </UserContext.Provider>
-  )
-}
+  );
+};
 
-const useAuth = () => useContext(UserContext)
-
-export { UserProvider, useAuth }
+export const useAuth = () => useContext(UserContext);

@@ -1,0 +1,68 @@
+.home-bg {
+  background: linear-gradient(135deg, #ec65e6, #d4a45b);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  width: 100%;
+  padding: 3rem 0;
+  color: #fff;
+}
+
+.home-bg h1, .home-bg h2, .home-bg h3 {
+  color: #000000;
+}
+
+.cards-container {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+  width: 100%;
+}
+
+.benefit-card {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 20px;
+  min-width: 220px;
+  color: #000;
+  text-align: center;
+}
+
+.products-section h2 {
+  margin-bottom: 2rem;
+}
+
+.products-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.product-card {
+  background: #fff;
+  color: #000;
+  border-radius: 20px;
+  padding: 1rem;
+  width: 18rem;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+.popup-edit {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  color: #000;
+  padding: 2rem;
+  border-radius: 20px;
+  z-index: 999;
+}

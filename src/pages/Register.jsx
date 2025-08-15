@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import "../styles/pages/Login.css"; // reutilizamos los mismos estilos
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap-icons/font/bootstrap-icons.css";
+import "../styles/pages/Register.css"; // estilos
+import "bootstrap/dist/css/bootstrap.min.css"; // bootstrap
+import "bootstrap-icons/font/bootstrap-icons.css"; // iconos
 
 function Register() {
   const [usuario, setUsuario] = useState("johnd"); // valor por defecto
@@ -18,8 +18,12 @@ function Register() {
       <div className="shadow-lg p-4 bg-white rounded-4 login-card" style={{ maxWidth: "400px", width: "100%" }}>
         <h2 className="text-center mb-4">Registrarse</h2>
 
-        <p className="text-center text-muted mb-3"> Usuario de admin: <strong>johnd</strong>  </p>
-        <p className="text-center text-muted mb-3">Contraseña de admin: <strong>m38rmF$</strong></p>
+        <p className="text-center text-muted mb-2">
+          Usuario de prueba: <strong>johnd</strong>
+        </p>
+        <p className="text-center text-muted mb-3">
+          Contraseña de prueba: <strong>m38rmF$</strong>
+        </p>
 
         <form onSubmit={handleRegister}>
           <div className="input-group mb-3">
