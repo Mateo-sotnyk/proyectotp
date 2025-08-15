@@ -35,11 +35,16 @@ const Header = () => {
 
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
+            <li className="nav-item">
+              <Link className="nav-link" to="/">Inicio</Link>
+            </li>
+
+            <li className="nav-item">
+              <Link className="nav-link" to="/sobre-nosotros">Sobre Nosotros</Link>
+            </li>
+
             {user ? (
               <>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/">Inicio</Link>
-                </li>
                 <li className="nav-item">
                   <Link className="nav-link" to="/dashboard">Dashboard</Link>
                 </li>
@@ -56,10 +61,10 @@ const Header = () => {
             ) : (
               <>
                 <li className="nav-item">
-                  <Link className="btn btn-primary" to="/login">Login</Link>
+                  <Link className="btn btn-primary ms-2" to="/login">Login</Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="btn btn-primary" to="/registrate">Regístrate</Link>
+                  <Link className="btn btn-primary ms-2" to="/registrate">Regístrate</Link>
                 </li>
               </>
             )}

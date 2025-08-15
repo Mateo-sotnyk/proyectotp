@@ -14,3 +14,20 @@
 .form-control:focus {
   box-shadow: none;
 }
+
+.fade-slide-in {
+  opacity: 0;
+  transform: translateY(25px);
+  animation: fadeSlideIn 0.7s ease forwards;
+}
+
+@keyframes fadeSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

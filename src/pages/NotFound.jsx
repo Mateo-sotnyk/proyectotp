@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom"
-import { Layout } from "../components/Layout"
+import { Link } from "react-router-dom";
+import { Layout } from "../components/Layout";
 
 const NotFound = () => {
   return (
@@ -9,7 +9,7 @@ const NotFound = () => {
       <p>Verificá la URL o volvé al inicio.</p>
       <Link to="/">Ir a inicio</Link>
     </Layout>
-  )
-}
+  );
+};
 
-export { NotFound }
+export { NotFound };
