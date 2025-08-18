@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { Layout } from "../components/Layout";
 import { useAuth } from "../context/UserContext";
+import { Search } from "../components/Search"; 
 import "../styles/pages/Home.css";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(""); 
   const [showPopup, setShowPopup] = useState(null);
   const [productToEdit, setProductToEdit] = useState(null);
   const [titleEdit, setTitleEdit] = useState("");
@@ -67,10 +69,13 @@ const Home = () => {
     }
   };
 
+  const filteredProducts = products.filter(product =>
+    product.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <Layout>
       <div className="home-bg min-vh-100 w-100 py-5">
-        {/* Bienvenida */}
         <section className="text-center mb-5">
           <h1>Bienvenido a Nuestra Tienda</h1>
           <div className="cards-container">
@@ -89,7 +94,8 @@ const Home = () => {
           </div>
         </section>
 
-        {/* Productos */}
+        <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+
         <section className="products-section text-center">
           <h2 className="mb-4">Nuestros productos</h2>
 
@@ -109,7 +115,7 @@ const Home = () => {
           )}
 
           <div className="products-container">
-            {products.map(product => (
+            {filteredProducts.map(product => (
               <div className="card product-card" key={product.id}>
                 <img src={product.image} className="card-img-top" alt={product.title} />
                 <div className="card-body">
