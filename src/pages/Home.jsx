@@ -1,12 +1,22 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { Layout } from "../components/Layout";
 import { useAuth } from "../context/UserContext";
 import { Search } from "../components/Search"; 
 import "../styles/pages/Home.css";
+import { useProducts } from "../hook/useProducts";
 
 const Home = () => {
-  const [products, setProducts] = useState([]);
-  const [searchTerm, setSearchTerm] = useState(""); 
+
+  const { user } = useAuth();
+  const {
+    filteredProducts,
+    searchTerm, 
+    setSearchTerm, 
+    deleteProduct, 
+    updateProduct
+  } = useProducts();
+
+  const safeFilteredProducts = filteredProducts || [];
   const [showPopup, setShowPopup] = useState(null);
   const [productToEdit, setProductToEdit] = useState(null);
   const [titleEdit, setTitleEdit] = useState("");
@@ -14,22 +24,6 @@ const Home = () => {
   const [descriptionEdit, setDescriptionEdit] = useState("");
   const [categoryEdit, setCategoryEdit] = useState("");
   const [imageEdit, setImageEdit] = useState("");
-
-  const { user } = useAuth();
-
-  useEffect(() => {
-    const fetchingProducts = async () => {
-      const response = await fetch("https://fakestoreapi.com/products");
-      const data = await response.json();
-      setProducts(data);
-    };
-    fetchingProducts();
-  }, []);
-
-  const handleDelete = async (id) => {
-    const response = await fetch(`https://fakestoreapi.com/products/${id}`, { method: "DELETE" });
-    if (response.ok) setProducts(prev => prev.filter(p => p.id !== id));
-  };
 
   const handleOpenEdit = (product) => {
     setShowPopup(true);
@@ -51,27 +45,10 @@ const Home = () => {
       category: categoryEdit,
       image: imageEdit
     };
+     updateProduct(updatedProduct);
+     setShowPopup(false);
+     };
 
-    try {
-      const response = await fetch(`https://fakestoreapi.com/products/${productToEdit.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedProduct)
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setProducts(prev => prev.map(p => p.id === productToEdit.id ? data : p));
-      }
-      setShowPopup(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const filteredProducts = products.filter(product =>
-    product.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   return (
     <Layout>

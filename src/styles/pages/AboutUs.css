@@ -4,7 +4,7 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Header arriba, footer abajo */
+    justify-content: space-between; 
     align-items: center;
     padding: 2rem 1rem;
 }
@@ -19,7 +19,7 @@
     opacity: 0;
     transform: translateY(25px);
     animation: fade-slide-in 0.7s ease forwards;
-    margin: 2rem 0; /* separación de header y footer */
+    margin: 2rem 0; 
 }
 
 .aboutus-header {
